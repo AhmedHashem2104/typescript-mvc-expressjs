@@ -8,6 +8,7 @@
  import Route from "./src/start/routes";
  import { errorHandler } from "./src/Middleware/Middleware";
  import { notFoundHandler } from "./src/Middleware/NotFound";
+ import http from 'http';
  import dbConfig from "./src/config/database";
  dotenv.config();
 /**
@@ -17,6 +18,7 @@
     process.exit(1);
  }
  const app = express();
+ const server = new http.Server(app)
 /**
  *  App Configuration
  */
@@ -37,7 +39,7 @@
       console.log(`Database Connection Error`)
   }
 
- app.listen(process.env.PORT, () => {
+  server.listen(process.env.PORT, () => {
     console.log(`Listening on port http://localhost:${process.env.PORT}`);
   });
 
