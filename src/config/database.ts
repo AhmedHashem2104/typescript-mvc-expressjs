@@ -8,7 +8,7 @@ const optionsConfig:any = {
   dialect: process.env.DB_CONNECTION,
   username: process.env.DB_USER_NAME,
   password: process.env.DB_PASSWORD,
-  models: [__dirname + '/../Models/*.ts'], // or [Player, Team],
+  models: [__dirname + '/../Models/*'], // or [Player, Team],
   logging: false
 }
 const config = new Sequelize(optionsConfig)

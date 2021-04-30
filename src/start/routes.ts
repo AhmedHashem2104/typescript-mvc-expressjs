@@ -2,8 +2,8 @@
  * Required External Modules and Interfaces
  */
  import express from "express";
+import UsersController from "../Controllers/UsersController";
 
- import ItemsController from '../Controllers/ItemsController'
 /**
  * Router Definition
  */
@@ -12,6 +12,11 @@
  * Controller Definitions
  */
 
- Route.get("/", new ItemsController().index);
+ Route.post("/login",  UsersController.login);
+
+ Route.get("/profile",  UsersController.profile);
+
+ Route.post("/register",  UsersController.register);
+
 
  export default Route
