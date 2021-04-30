@@ -16,6 +16,8 @@ import UsersController from "../Controllers/UsersController";
 
  Route.get("/profile",  UsersController.profile);
 
+ Route.get("/logout",  UsersController.logout);
+
  Route.post("/register",  UsersController.register);
 
 

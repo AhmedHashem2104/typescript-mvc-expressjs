@@ -2,18 +2,15 @@ import { Table, Column, Model, HasMany , PrimaryKey, CreatedAt, UpdatedAt, AutoI
 
 @Table({
     timestamps : true,
-    tableName : 'users'
+    tableName : 'tokens'
 })
-class User extends Model{
+class Token extends Model{
 
     @Column
-     email!: string
+     user_id!: number
 
     @Column
-     password!: string
-
-    @Column
-     user_type_id!: number
+     token!: string
 
     @CreatedAt
      createdAt!: Date
@@ -31,4 +28,4 @@ class User extends Model{
     //  }
 }
 
-export default User
+export default Token
