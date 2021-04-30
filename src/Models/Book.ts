@@ -1,17 +1,18 @@
 import config from '../config/database'
 
-class Token{
+class Book{
 
     public query(){
-        return config.from('tokens').select('*')
+        return config.from('books').select('*')
     }
 
     public create(data:any){
-        return config.insert(data).returning('id').into('tokens').then((id) => {
+        return config.insert(data).returning('id').into('books').then((id) => {
+
             return this.query().where('id' , id).first()
         }).catch(() => false)
     }
-    
+
 }
 
-export default new Token
+export default new Book

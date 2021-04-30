@@ -1,34 +1,17 @@
-import { Table, Column, Model, HasMany , PrimaryKey, CreatedAt, UpdatedAt, AutoIncrement, BeforeSave } from 'sequelize-typescript'
+import config from '../config/database'
 
-@Table({
-    timestamps : true,
-    tableName : 'users'
-})
-class User extends Model{
+class User{
 
-    @Column
-     email!: string
+    public query(){
+        return config.from('users').select('*')
+    }
 
-    @Column
-     password!: string
+    public create(data:any){
+        return config.insert(data).returning('id').into('users').then((id) => {
+            return this.query().where('id' , id).first()
+        }).catch(() => false)
+    }
 
-    @Column
-     user_type_id!: number
-
-    @CreatedAt
-     createdAt!: Date
-
-    @UpdatedAt
-     updatedAt!: Date
-
-    // public async encryptPassword (password: string){
-    //     const salt = await bcrypt.genSalt(10)
-    //     return bcrypt.hash(password , salt)
-    //  }
-
-    // public async validatePassword (password: string){
-    //     return await bcrypt.compare(password , this.password)
-    //  }
 }
 
-export default User
+export default new User

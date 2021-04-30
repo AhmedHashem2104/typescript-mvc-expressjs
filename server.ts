@@ -6,14 +6,11 @@
  import cors from "cors";
  import helmet from "helmet";
  import Route from "./src/start/routes";
- import { errorHandler } from "./src/Middleware/Middleware";
  import { notFoundHandler } from "./src/Middleware/NotFound";
  import http from 'http';
- import dbConfig from "./src/config/database";
  import morgan from 'morgan'
  import formData from 'express-form-data'
  import bearerToken from 'express-bearer-token'
-
 
  dotenv.config();
 
@@ -47,17 +44,16 @@
  app.use(morgan('dev'))
  app.use("/", Route);
 
- app.use(errorHandler);
  app.use(notFoundHandler);
 /**
  * Server Activation
  */
 
- try {
-     dbConfig.authenticate().then(res => {}).catch(err => {});
-  } catch (error) {
-      console.log(`Database Connection Error`)
-  }
+//  try {
+//      dbConfig.then(res => {}).catch(err => {});
+//   } catch (error) {
+//       console.log(`Database Connection Error`)
+//   }
 
   server.listen(process.env.PORT, () => {
     console.log(`Listening on port http://localhost:${process.env.PORT}`);

@@ -1,7 +1,9 @@
 /**
  * Required External Modules and Interfaces
  */
- import express from "express";
+import express from "express";
+import BooksController from "../Controllers/BooksController";
+import FavouritesController from "../Controllers/FavouritesController";
 import UsersController from "../Controllers/UsersController";
 
 /**
@@ -13,6 +15,15 @@ import UsersController from "../Controllers/UsersController";
  */
 
  Route.post("/login",  UsersController.login);
+
+ Route.get("/books/:page",  BooksController.index);
+
+ Route.post("/book",  BooksController.store);
+
+ Route.delete("/book/:id",  BooksController.destroy);
+
+ Route.post("/addToMyFavourite",  FavouritesController.addToMyFavourite);
+
 
  Route.get("/profile",  UsersController.profile);
 

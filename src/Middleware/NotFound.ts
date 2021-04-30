@@ -8,7 +8,9 @@ export const notFoundHandler = (
   next: NextFunction
 ) => {
 
-  const message = "Page not found";
+  const message = {
+    message : "Envalid URL"}
+    ;
 
   response.status(404).send(message);
 };

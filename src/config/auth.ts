@@ -3,15 +3,12 @@ import bcrypt from 'bcryptjs';
 import User from '../Models/User'
 import { Response, Request } from 'express';
 import Token from '../Models/Token';
-import { token } from 'morgan';
-class auth {
-    public async attempt(email: string , password: string , res:Response): Promise<any>{
+class Auth {
+    public async attempt(email: string , password: string): Promise<any>{
         try{
-        const checkUser:any = await User.findOne({
-            where : {
+        const checkUser:any = await User.query().where({
                 email : email
-            }
-        })
+        }).first()
         const tokenCheck: any = await Token.create({
             user_id : checkUser.id,
             token : await bcrypt.hash(checkUser.password , 10)
@@ -23,59 +20,59 @@ class auth {
                 token: token
             }
         }
-        res.status(401).json({
+        throw ({
             message : 'Unauthorized Access'
         })
     }
     catch(err){
-        res.status(401).json({
+        throw ({
             message : 'Unauthorized Access'
         })
     }
+
     }
 
     public async authenticate(req:Request, res: Response): Promise<any>{
         try{
             const {id , key}:any = await jwt.verify(req.token || '' , 'zteArshmedisHashem')
-            console.log(id , key)
-            const tokenQuery = await Token.findOne({
-                where:{
-                    id : id,
-                    token : key
-                }
-            })
-            const userQuery = await User.findOne({
-                where:{
+            console.log(id)
+            const tokenQuery = await Token.query().where({
+                    id : id
+            }).andWhere({
+                token : key
+            }).first()
+            const userQuery = await User.query().where({
                     id : tokenQuery?.user_id
-                }
-            })
+            }).first()
         return userQuery
         }
         catch(err){
-            res.status(401).json({
+            throw ({
                 message : 'Unauthorized Access'
             })
         }
     }
 
-    public async logout(req:Request, res: Response): Promise<any>{
-        // try{
-            const {id , key}:any = await jwt.verify(req.token || '' , 'zteArshmedisHashem')
-            const query = await Token.destroy({
-                where:{
-                    id : id,
-                    token : key
-                }
+    public async logout(req:Request): Promise<any>{
+        try{
+            const {id}:any = await jwt.verify(req.token || '' , 'zteArshmedisHashem')
+            const query = await Token.query().where({
+                    id : id
+            }).delete()
+            if(query !== 0)
+            return query
+            else
+            throw ({
+                message : 'Unauthorized Access'
             })
-        return query
-        // }
-        // catch(err){
-        //     res.status(401).json({
-        //         message : 'Unauthorized Access'
-        //     })
-        // }
+        }
+        catch(err){
+            throw ({
+                message : 'Unauthorized Access'
+            })
+        }
     }
 
 }
 
-export default new auth
+export default new Auth
